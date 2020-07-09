@@ -13,7 +13,6 @@
                 "BRCas\\Log\\Providers\\LogServiceProvider"
             ],
             "aliases": {
-
             }
         }
     },

@@ -32,6 +32,36 @@ class LogServiceProvider extends ServiceProvider
         $kernel->pushMiddleware(\BRCas\Log\Middleware\LogMiddleware::class);
     }
 
+    public function register()
+    {
+        $this->commands([
+            Console\InstallCommand::class,
+        ]);
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            'brcaslog'
+        );
+    }
+
+    /**
+     * Determine if we should register the migrations.
+     *
+     * @return bool
+     */
+    protected function shouldMigrate()
+    {
+        return config('brcaslog.driver') === 'database';
+    }
+
     /**
      * Register the package's migrations.
      *
@@ -56,35 +86,5 @@ class LogServiceProvider extends ServiceProvider
                 __DIR__ . '/../Config/config.php' => config_path('brcaslog.php'),
             ], 'brcas-log-config');
         }
-    }
-
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../Config/config.php',
-            'brcaslog'
-        );
-    }
-
-    public function register()
-    {
-        $this->commands([
-            Console\InstallCommand::class,
-        ]);
-    }
-
-    /**
-     * Determine if we should register the migrations.
-     *
-     * @return bool
-     */
-    protected function shouldMigrate()
-    {
-        return config('brcaslog.driver') === 'database';
     }
 }

@@ -7,16 +7,30 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class Log extends Model
 {
-    public function getTable()
-    {
-        return config('brcaslog.table');
-    }
     protected $fillable = [
         'url',
         'request',
         'response',
         'custom'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($obj) {
+            $obj->id = (string)RamseyUuid::uuid4();
+            if ($user = auth()->user()) {
+                $obj->user_id = $user->id;
+                $obj->user_name = $user->name;
+                $obj->user_email = $user->email;
+            }
+        });
+    }
+
+    public function getTable()
+    {
+        return config('brcaslog.table');
+    }
 
     public function getKeyType()
     {
@@ -26,19 +40,6 @@ class Log extends Model
     public function getIncrementing()
     {
         return false;
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function ($obj) {
-            $obj->id = (string) RamseyUuid::uuid4();
-            if($user = auth()->user()){
-                $obj->user_id = $user->id;
-                $obj->user_name = $user->name;
-                $obj->user_email = $user->email;
-            }
-        });
     }
 
     public function setRequestAttribute($value)

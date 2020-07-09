@@ -14,6 +14,7 @@ class LogMiddleware
     {
         $this->service = $service;
     }
+
     /**
      * Handle an incoming request.
      *
@@ -44,7 +45,7 @@ class LogMiddleware
             $data["request"] += ["action" => $value];
         }
 
-        if(count($request->except(['q']))) {
+        if (count($request->except(['q']))) {
             $data['request'] += [
                 "params" => $request->except(['q']),
             ];
@@ -56,18 +57,18 @@ class LogMiddleware
         switch ($data['response']['class']) {
             case \Illuminate\Http\JsonResponse::class:
                 $response = json_decode($ret->getContent(), true);
-            break;
-            break;
+                break;
+                break;
             case \Illuminate\Http\RedirectResponse::class:
                 $response = "Page is redirect";
                 $data['response'] += ['url' => $ret->getTargetUrl()];
-            break;
+                break;
             case \Illuminate\Http\Response::class:
                 $response = "Page is HTML";
-            break;
+                break;
             default:
                 dd($ret);
-            break;
+                break;
         }
 
         if ($response) {
