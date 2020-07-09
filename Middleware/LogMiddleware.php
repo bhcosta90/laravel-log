@@ -4,6 +4,7 @@ namespace BRCas\Log\Middleware;
 
 use BRCas\Log\Services\LogService;
 use Closure;
+use Illuminate\Support\Facades\Route;
 
 class LogMiddleware
 {
@@ -28,11 +29,20 @@ class LogMiddleware
             "url" => $request->url(),
             "request" => [
                 "method" => $request->method(),
+                "route" => Route::current(),
             ],
             'response' => [
                 'status_code' => $ret->getStatusCode(),
             ]
         ];
+
+        if (!empty($value = Route::currentRouteName())) {
+            $data["request"] += ["name" => $value];
+        }
+
+        if (!empty($value = Route::currentRouteAction())) {
+            $data["request"] += ["action" => $value];
+        }
 
         if(count($request->except(['q']))) {
             $data['request'] += [
