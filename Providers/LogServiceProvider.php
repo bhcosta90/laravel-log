@@ -2,8 +2,8 @@
 
 namespace BRCas\Log\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use BRCas\Log\Console;
+use Illuminate\Support\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider
 {
@@ -32,13 +32,6 @@ class LogServiceProvider extends ServiceProvider
         $kernel->pushMiddleware(\BRCas\Log\Middleware\LogMiddleware::class);
     }
 
-    public function register()
-    {
-        $this->commands([
-            Console\InstallCommand::class,
-        ]);
-    }
-
     /**
      * Register config.
      *
@@ -53,13 +46,17 @@ class LogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Determine if we should register the migrations.
+     * Register the package's publishable resources.
      *
-     * @return bool
+     * @return void
      */
-    protected function shouldMigrate()
+    private function registerPublishing()
     {
-        return config('brcaslog.driver') === 'database';
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../Config/config.php' => config_path('brcaslog.php'),
+            ], 'brcas-log-config');
+        }
     }
 
     /**
@@ -75,16 +72,19 @@ class LogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the package's publishable resources.
+     * Determine if we should register the migrations.
      *
-     * @return void
+     * @return bool
      */
-    private function registerPublishing()
+    protected function shouldMigrate()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../Config/config.php' => config_path('brcaslog.php'),
-            ], 'brcas-log-config');
-        }
+        return config('brcaslog.driver') === 'database';
+    }
+
+    public function register()
+    {
+        $this->commands([
+            Console\InstallCommand::class,
+        ]);
     }
 }
