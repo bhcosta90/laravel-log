@@ -43,6 +43,10 @@ class LogMiddleware
         $response = null;
 
         switch(get_class($ret)){
+            case \Illuminate\Http\JsonResponse::class:
+                $response = $ret->getContent();
+            break;
+            break;
             case \Illuminate\Http\RedirectResponse::class:
                 $response = "Page is redirect";
                 $data['response'] += ['url' => $ret->getTargetUrl()];
