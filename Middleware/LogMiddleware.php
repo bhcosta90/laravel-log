@@ -41,10 +41,11 @@ class LogMiddleware
         }
 
         $response = null;
+        $data['response'] += ['class' => get_class($ret)];
 
-        switch(get_class($ret)){
+        switch ($data['response']['class']) {
             case \Illuminate\Http\JsonResponse::class:
-                $response = $ret->getContent();
+                $response = json_decode($ret->getContent(), true);
             break;
             break;
             case \Illuminate\Http\RedirectResponse::class:
@@ -59,7 +60,7 @@ class LogMiddleware
             break;
         }
 
-        if($response){
+        if ($response) {
             $data['response'] += ['return' => $response];
         }
 
