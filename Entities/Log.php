@@ -7,6 +7,10 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class Log extends Model
 {
+    public function getTable()
+    {
+        return config('brcaslog.table');
+    }
     protected $fillable = [
         'url',
         'request',

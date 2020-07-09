@@ -40,8 +40,25 @@ class LogMiddleware
             ];
         }
 
-        LogService::add('oi', 'tese');
-        
+        $response = null;
+
+        switch(get_class($ret)){
+            case \Illuminate\Http\RedirectResponse::class:
+                $response = "Page is redirect";
+                $data['response'] += ['url' => $ret->getTargetUrl()];
+            break;
+            case \Illuminate\Http\Response::class:
+                $response = "Page is HTML";
+            break;
+            default:
+                dd($ret);
+            break;
+        }
+
+        if($response){
+            $data['response'] += ['return' => $response];
+        }
+
         $this->service->save($data);
 
         return $ret;
