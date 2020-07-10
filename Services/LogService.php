@@ -30,7 +30,7 @@ class LogService
                     break;
             }
         } else {
-            FacadesLog::info($data);
+            FacadesLog::info(json_encode($data));
         }
     }
 }
