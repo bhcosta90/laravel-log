@@ -13,7 +13,7 @@ class CreateLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('brcaslog.table'), function (Blueprint $table) {
+        Schema::create(config('brcaslog.table', 'brcaslog_table'), function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('url', 250)->nullable();
             $table->uuid('user_id')->nullable();
@@ -34,6 +34,6 @@ class CreateLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('log.table'));
+        Schema::dropIfExists(config('log.table', 'brcaslog_table'));
     }
 }
