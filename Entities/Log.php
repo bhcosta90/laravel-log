@@ -29,7 +29,7 @@ class Log extends Model
 
     public function getTable()
     {
-        return config('brcaslog.table');
+        return config('brcaslog.table', 'brcaslog_table');
     }
 
     public function getKeyType()
