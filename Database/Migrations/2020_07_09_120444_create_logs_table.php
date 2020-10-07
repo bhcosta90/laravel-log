@@ -19,6 +19,7 @@ class CreateLogsTable extends Migration
             $table->uuid('user_id')->nullable();
             $table->uuid('user_name')->nullable();
             $table->uuid('user_email')->nullable();
+            $table->json('status')->nullable();
             $table->json('request')->nullable();
             $table->json('response')->nullable();
             $table->json('custom')->nullable();
