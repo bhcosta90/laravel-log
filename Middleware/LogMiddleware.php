@@ -28,7 +28,7 @@ class LogMiddleware
         $ret = $next($request);
         $data = [
             "url" => $request->url(),
-            "status" => $ret->getStatusCode(),
+            "status" => (string) $ret->getStatusCode(),
             "request" => [
                 "method" => $request->method(),
                 "route" => Route::current(),
