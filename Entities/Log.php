@@ -11,7 +11,8 @@ class Log extends Model
         'url',
         'request',
         'response',
-        'custom'
+        'custom',
+        'status',
     ];
 
     public static function boot()
