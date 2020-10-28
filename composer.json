@@ -1,5 +1,5 @@
 {
-    "name": "brcas/log",
+    "name": "bhcosta90/laravel-log",
     "description": "",
     "authors": [
         {
@@ -20,5 +20,9 @@
         "psr-4": {
             "BRCas\\Log\\": ""
         }
+    },
+    "require": {
+        "php": "^7.3",
+        "laravel/framework": "^8.0"
     }
 }
