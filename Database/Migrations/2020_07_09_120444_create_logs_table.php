@@ -15,14 +15,14 @@ class CreateLogsTable extends Migration
     {
         Schema::create(config('brcaslog.table', 'brcaslog_table'), function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('url', 250)->nullable();
+            $table->string('url', 191)->nullable();
             $table->uuid('user_id')->nullable();
             $table->uuid('user_name')->nullable();
             $table->uuid('user_email')->nullable();
-            $table->json('status')->nullable();
-            $table->json('request')->nullable();
-            $table->json('response')->nullable();
-            $table->json('custom')->nullable();
+            $table->text('status')->nullable();
+            $table->text('request')->nullable();
+            $table->text('response')->nullable();
+            $table->text('custom')->nullable();
             $table->dateTime('sync')->nullable();
             $table->timestamps();
         });
